@@ -1,0 +1,49 @@
+{
+  "name": "jiranch",
+  "version": "0.0.6",
+  "description": "Easily create Git branches from your sprint issues",
+  "bin": {
+    "jiranch": "index.js"
+  },
+  "scripts": {
+    "prebuild": "node ./scripts/pre-build.js",
+    "build": "tsc && npm run minify",
+    "postbuild": "node ./scripts/post-build.js",
+    "minify": "node ./scripts/minify.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaharkazaz/jiranch.git"
+  },
+  "keywords": [
+    "Jira",
+    "Branch",
+    "Tool"
+  ],
+  "author": "Shahar Kazaz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shaharkazaz/jiranch/issues"
+  },
+  "homepage": "https://github.com/shaharkazaz/jiranch#readme",
+  "devDependencies": {
+    "@types/command-line-args": "^5.2.0",
+    "@types/command-line-usage": "^5.0.2",
+    "@types/configstore": "^5.0.1",
+    "@types/inquirer": "^7.3.3",
+    "@types/node": "^16.7.1",
+    "@types/node-fetch": "^2.5.12",
+    "glob": "^7.1.7",
+    "rimraf": "^3.0.2",
+    "terser": "5.7.2",
+    "typescript": "4.3.5"
+  },
+  "dependencies": {
+    "command-line-args": "^5.2.0",
+    "command-line-usage": "^6.1.1",
+    "configstore": "5.0.1",
+    "inquirer": "8.1.2",
+    "node-fetch": "2.6.1",
+    "ora": "5.4.1"
+  }
+}
