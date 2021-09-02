@@ -40,3 +40,7 @@ export function sanitizeBranchName(branchName: string): string {
 export function lastChar(str: string): string {
     return str ? str.charAt(str.length - 1): '';
 }
+
+export function jiraApi(path: string) {
+    return `https://lumigo.atlassian.net/rest/api/2/${path}`;
+}

@@ -12,6 +12,7 @@ export interface InlineConfig {
     help: boolean;
     selectSprint: boolean;
     skipCheckout: boolean;
+    skipStatusUpdate: boolean;
 }
 
 export type Commands = 'init' | 'create' | 'clear';

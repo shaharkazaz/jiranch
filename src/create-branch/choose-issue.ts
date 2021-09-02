@@ -3,11 +3,11 @@ import {sanitizeBranchName} from "./utils";
 
 export function chooseIssue(issuesData: any[]) {
     const choices = issuesData.map(({ key, fields }) => {
-        const value = `${key}-${sanitizeBranchName(fields.summary)}`;
+        const branchName = `${key}-${sanitizeBranchName(fields.summary)}`;
 
         return {
             name: `${key}: ${fields.summary}`,
-            value,
+            value: {branchName, issueId: key},
             short: key
         };
     });
@@ -15,7 +15,7 @@ export function chooseIssue(issuesData: any[]) {
     return inquirer.prompt([{
         type: 'list',
         message: 'Choose issue:',
-        name: 'branchName',
+        name: 'selected',
         choices
     }]);
 }
