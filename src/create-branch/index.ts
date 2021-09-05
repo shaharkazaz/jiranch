@@ -10,6 +10,7 @@ import {InlineConfig} from "../types";
 import {verifyBaseBranch} from "./verify-base-branch";
 import {checkBranchExists} from "./check-branch-exists";
 import {updateJiraStatus} from "./update-jira-status";
+import { prefixBranch } from "./perfix-branch";
 
 const loadingIssuesData = ora('Loading issues data...');
 const loadingIssues = ora('Loading sprint issues...');
@@ -38,9 +39,11 @@ async function run(inlineConfig: InlineConfig) {
     loadingIssuesData.succeed('Issues data loaded.');
 
     const { branchName, issueId } = (await chooseIssue(issuesData)).selected;
-    const options = {...inlineConfig, branchName};
+    const options = {...inlineConfig, branchName, prefix: null };
     await checkBranchExists(options);
     await verifyBaseBranch();
+    options.prefix = (await prefixBranch()).prefix;
+    
     await createBranch(options);
 
     if (!inlineConfig.skipStatusUpdate) {
