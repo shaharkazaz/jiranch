@@ -6,6 +6,7 @@
     "jiranch": "index.js"
   },
   "scripts": {
+    "jiranch": "ts-node src/index.ts",
     "prebuild": "node ./scripts/pre-build.js",
     "build": "tsc && npm run minify",
     "postbuild": "node ./scripts/post-build.js",
@@ -36,6 +37,7 @@
     "glob": "^7.1.7",
     "rimraf": "^3.0.2",
     "terser": "5.7.2",
+    "ts-node": "^10.2.1",
     "typescript": "4.3.5"
   },
   "dependencies": {
