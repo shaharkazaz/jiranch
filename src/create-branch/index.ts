@@ -31,7 +31,7 @@ async function run(inlineConfig: InlineConfig) {
     }
 
     loadingIssues.start();
-    const issues = await fetchIssues(sprint)
+    const issues = await fetchIssues(inlineConfig, sprint);
     loadingIssues.succeed(`Sprint ${sprintDisplayName(sprint)} issues loaded.`);
 
     loadingIssuesData.start();
