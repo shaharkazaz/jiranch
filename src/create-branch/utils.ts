@@ -42,5 +42,9 @@ export function lastChar(str: string): string {
 }
 
 export function jiraApi(path: string) {
-    return `https://lumigo.atlassian.net/rest/api/2/${path}`;
+    return `https://lumigo.atlassian.net/rest/api/3/${path}`;
+}
+
+export function pluck<T>(prop: keyof T) {
+    return (v: T) => v[prop];
 }

@@ -1,5 +1,9 @@
 import inquirer from 'inquirer';
-import {sanitizeBranchName} from "./utils";
+import {sanitizeBranchName, pluck} from "./utils";
+import autocomplete from 'inquirer-autocomplete-prompt';
+import fuzzy from 'fuzzy';
+
+inquirer.registerPrompt('autocomplete', autocomplete);
 
 export function chooseIssue(issuesData: any[]) {
     const choices = issuesData.map(({ key, fields }) => {
@@ -13,9 +17,16 @@ export function chooseIssue(issuesData: any[]) {
     });
 
     return inquirer.prompt([{
-        type: 'list',
+        type: 'autocomplete',
         message: 'Choose issue:',
         name: 'selected',
-        choices
+        loop: false,
+        source: function(_: any, searchTerm: string) {
+            const filtered = searchTerm
+                ? fuzzy.filter(searchTerm, choices, {extract: pluck('name')}).map(pluck('original'))
+                : choices;
+
+            return Promise.resolve(filtered);
+        }
     }]);
 }

@@ -1,6 +1,6 @@
 {
   "name": "jiranch",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Easily create Git branches from your sprint issues",
   "bin": {
     "jiranch": "index.js"
@@ -32,6 +32,7 @@
     "@types/command-line-usage": "^5.0.2",
     "@types/configstore": "^5.0.1",
     "@types/inquirer": "^7.3.3",
+    "@types/inquirer-autocomplete-prompt": "^1.3.3",
     "@types/node": "^16.7.1",
     "@types/node-fetch": "^2.5.12",
     "glob": "^7.1.7",
@@ -44,7 +45,9 @@
     "command-line-args": "^5.2.0",
     "command-line-usage": "^6.1.1",
     "configstore": "5.0.1",
+    "fuzzy": "^0.1.3",
     "inquirer": "8.1.2",
+    "inquirer-autocomplete-prompt": "^1.4.0",
     "node-fetch": "2.6.1",
     "ora": "5.4.1"
   }

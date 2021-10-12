@@ -14,6 +14,7 @@ export interface InlineConfig {
     skipCheckout: boolean;
     skipStatusUpdate: boolean;
     allIssues: boolean;
+    ninja: boolean;
 }
 
 export type Commands = 'init' | 'create' | 'clear';

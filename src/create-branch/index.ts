@@ -1,4 +1,3 @@
-import {sprintDisplayName} from "./utils";
 import {createBranch} from "./create-branch";
 import {chooseIssue} from "./choose-issue";
 import {fetchIssuesData} from "./fetch-issues-data";
@@ -10,10 +9,9 @@ import {InlineConfig} from "../types";
 import {verifyBaseBranch} from "./verify-base-branch";
 import {checkBranchExists} from "./check-branch-exists";
 import {updateJiraStatus} from "./update-jira-status";
-import { prefixBranch } from "./perfix-branch";
+import {prefixBranch} from "./perfix-branch";
 
 const loadingIssuesData = ora('Loading issues data...');
-const loadingIssues = ora('Loading sprint issues...');
 
 export function createJiraBranch(inlineConfig: InlineConfig) {
     if (!hasConfig()) {
@@ -26,13 +24,11 @@ export function createJiraBranch(inlineConfig: InlineConfig) {
 
 async function run(inlineConfig: InlineConfig) {
     let sprint = getCurrentSprint();
-    if (inlineConfig.selectSprint) {
+    if (inlineConfig.selectSprint && !inlineConfig.ninja) {
         sprint = (await chooseSprint()).sprint;
     }
 
-    loadingIssues.start();
     const issues = await fetchIssues(inlineConfig, sprint);
-    loadingIssues.succeed(`Sprint ${sprintDisplayName(sprint)} issues loaded.`);
 
     loadingIssuesData.start();
     const issuesData = await fetchIssuesData(issues);
