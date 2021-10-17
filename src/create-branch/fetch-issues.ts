@@ -18,7 +18,7 @@ function resolveJql({ninja, allIssues}: InlineConfig, sprint: number) {
 }
 
 export async function fetchIssues(config: InlineConfig, sprint: number) {
-    const loadingIssues = ora(config.ninja ? 'Loading Ninja issues' : 'Loading sprint issues...');
+    const loadingIssues = ora(config.ninja ? 'Loading Ninja issues' : 'Loading sprint issues...').start();
     const url = jiraApi(resolveJql(config, sprint));
     const fetch = require('node-fetch');
 
