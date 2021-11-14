@@ -7,16 +7,20 @@ interface Options extends InlineConfig {
 }
 
 export async function checkBranchExists({branchName, skipCheckout}: Options) {
-    const {stdout} = await exec(`git branch --list ${branchName}`);
+    const {stdout} = await exec(`git branch --list '*${branchName}'`);
     const localBranchExists = !!stdout;
 
     if (localBranchExists) {
         ora(`Local branch exists! Skipping creation.`).succeed();
+        const isActiveBranch = stdout.includes('*');
 
-        if (!skipCheckout) {
+        if (isActiveBranch) {
+            ora(`Already on ${branchName}`).succeed();
+        } else if (!skipCheckout) {
             await exec(`git checkout ${branchName}`);
             ora(`Checkout ${branchName}`).succeed();
         }
+
         process.exit();
     }
 }
