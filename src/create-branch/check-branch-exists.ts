@@ -17,8 +17,9 @@ export async function checkBranchExists({branchName, skipCheckout}: Options) {
         if (isActiveBranch) {
             ora(`Already on ${branchName}`).succeed();
         } else if (!skipCheckout) {
-            await exec(`git checkout ${branchName}`);
-            ora(`Checkout ${branchName}`).succeed();
+            const localBranchName = stdout.trim();
+            await exec(`git checkout ${localBranchName}`);
+            ora(`Checkout ${localBranchName}`).succeed();
         }
 
         process.exit();
