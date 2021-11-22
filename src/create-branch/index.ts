@@ -8,7 +8,7 @@ import {InlineConfig} from "../types";
 import {verifyBaseBranch} from "./verify-base-branch";
 import {checkBranchExists} from "./check-branch-exists";
 import {updateJiraStatus} from "./update-jira-status";
-import {prefixBranch} from "./perfix-branch";
+import {tagBranch} from "./perfix-branch";
 import {checkPullNeeded} from "./check-pull-needed";
 
 
@@ -32,10 +32,10 @@ async function run(inlineConfig: InlineConfig) {
     const issuesData = await fetchIssuesData(issues);
 
     const { branchName, issueId } = (await chooseIssue(issuesData)).selected;
-    const options = {...inlineConfig, branchName, prefix: null };
+    const options = {...inlineConfig, branchName, tag: null };
     await checkBranchExists(options);
     await verifyBaseBranch();
-    options.prefix = (await prefixBranch()).prefix;
+    options.tag = (await tagBranch()).tag;
 
     await checkPullNeeded();
     await createBranch(options);

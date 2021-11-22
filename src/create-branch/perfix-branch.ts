@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 
-export function prefixBranch() {
+export function tagBranch() {
     const choices = ['None', 'Angels', 'Delta', 'Monitoring'].map(name => ({
       name: name,
       value: name === 'None' ? null : name.toLowerCase()
@@ -8,8 +8,8 @@ export function prefixBranch() {
 
     return inquirer.prompt([{
         type: 'list',
-        message: 'Prefix branch with:',
-        name: 'prefix',
+        message: 'Tag branch with:',
+        name: 'tag',
         choices
     }]);
 }
