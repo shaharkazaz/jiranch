@@ -1,13 +1,9 @@
-import {exec} from "./utils";
-import {InlineConfig} from "../types";
+import {exec, tagBranch} from "./utils";
+import {Options} from "../types";
 import ora from "ora";
 
-interface Options extends InlineConfig {
-    branchName: string;
-}
-
-export async function checkBranchExists({branchName, skipCheckout}: Options) {
-    const {stdout} = await exec(`git branch --list '*${branchName}'`);
+export async function checkBranchExists({branchName, issueId, skipCheckout, tag}: Options) {
+    const {stdout} = await exec(`git branch --list '${tagBranch(issueId, tag)}*'`);
     const localBranchExists = !!stdout;
 
     if (localBranchExists) {

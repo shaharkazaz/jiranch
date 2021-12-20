@@ -18,5 +18,5 @@ export async function updateJiraStatus(issueId: string) {
         body: getTransitionData(transitions.IN_PROGRESS)
     });
 
-    loader.succeed(`Moved issue to 'In progress'.`);
+    loader.succeed(`Moved issue '${issueId}' to 'In progress'.`);
 }

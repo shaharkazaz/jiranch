@@ -22,6 +22,7 @@ export function createJiraBranch(inlineConfig: InlineConfig) {
 }
 
 async function run(inlineConfig: InlineConfig) {
+    await verifyBaseBranch();
     let sprint = getCurrentSprint();
     if (inlineConfig.selectSprint && !inlineConfig.ninja) {
         sprint = (await chooseSprint()).sprint;
@@ -32,10 +33,9 @@ async function run(inlineConfig: InlineConfig) {
     const issuesData = await fetchIssuesData(issues);
 
     const { branchName, issueId } = (await chooseIssue(issuesData)).selected;
-    const options = {...inlineConfig, branchName, tag: null };
-    await checkBranchExists(options);
-    await verifyBaseBranch();
+    const options = {...inlineConfig, branchName, tag: null, issueId };
     options.tag = (await tagBranch()).tag;
+    await checkBranchExists(options);
 
     await checkPullNeeded();
     await createBranch(options);

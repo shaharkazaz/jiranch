@@ -1,19 +1,14 @@
-import {InlineConfig} from "../types";
+import {Options} from "../types";
 import ora from "ora";
-import {exec} from "./utils";
-
-interface Options extends InlineConfig {
-    branchName: string;
-    tag: string | null;
-}
+import {exec, tagBranch} from "./utils";
 
 export async function createBranch({branchName, skipCheckout, tag }: Options) {
     const creatingBranch = ora('Creating branch').start();
 
     const cmd = skipCheckout ? `git branch` : `git checkout -b`;
-    const normalizedName = tag ? branchName.replace(/(RD-\d+)/, `$1-${tag}`) : branchName;
+    const normalizedName = tagBranch(branchName, tag);
     await exec(`${cmd} ${normalizedName}`);
 
-    creatingBranch.succeed(`Created branch: ${branchName}`);
-    ora(`Checkout ${branchName}`).succeed();
+    creatingBranch.succeed(`Created branch: ${normalizedName}`);
+    ora(`Checkout ${normalizedName}`).succeed();
 }

@@ -14,11 +14,13 @@ export async function verifyBaseBranch() {
         const {create} = await inquirer.prompt([{
             type: 'boolean',
             name: 'create',
-            message: `Create branch from '${stdout.replace(/[\s\n]/g, '')}'? (y/n)`,
+            message: `Continue creating branch from '${stdout.replace(/[\s\n]/g, '')}'? (y/n)`,
             default: 'n'
         }]);
 
         if (!confirmed(create)) {
+            console.log('Switch to main branch and rerun.');
+            console.log('Aborting...');
             process.exit();
         }
     }

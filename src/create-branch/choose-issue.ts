@@ -7,12 +7,13 @@ inquirer.registerPrompt('autocomplete', autocomplete);
 
 export function chooseIssue(issuesData: any[]) {
     const choices = issuesData.map(({ key, fields }) => {
-        const branchName = `${key}-${sanitizeBranchName(fields.summary)}`;
+        const issueId = key;
+        const branchName = `${issueId}-${sanitizeBranchName(fields.summary)}`;
 
         return {
-            name: `${key}: ${fields.summary}`,
-            value: {branchName, issueId: key},
-            short: key
+            name: `${issueId}: ${fields.summary}`,
+            value: {branchName, issueId},
+            short: issueId
         };
     });
 

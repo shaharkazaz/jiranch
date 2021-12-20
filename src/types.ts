@@ -2,7 +2,7 @@ import {init} from "./init";
 import {createJiraBranch} from "./create-branch";
 import {clearConfig} from "./clear-config";
 
-export interface Config {
+export interface JiraConfig {
     email: string;
     userId: string;
     token: string;
@@ -15,6 +15,12 @@ export interface InlineConfig {
     skipStatusUpdate: boolean;
     allIssues: boolean;
     ninja: boolean;
+}
+
+export interface Options extends InlineConfig {
+    branchName: string;
+    issueId: string;
+    tag: string | null;
 }
 
 export type Commands = 'init' | 'create' | 'clear';

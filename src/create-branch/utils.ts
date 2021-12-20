@@ -1,6 +1,6 @@
 import {Response} from 'node-fetch';
 import {getConfigStore} from "../shared";
-import {Config} from "../types";
+import {JiraConfig} from "../types";
 import {exec as _exec} from 'child_process';
 import util from 'util';
 
@@ -15,7 +15,7 @@ export function sprintDisplayName(sprint: number) {
 }
 
 export function getConfig() {
-    return getConfigStore().all as Config;
+    return getConfigStore().all as JiraConfig;
 }
 
 export function getHeaders() {
@@ -47,4 +47,8 @@ export function jiraApi(path: string) {
 
 export function pluck<T>(prop: keyof T) {
     return (v: T) => v[prop];
+}
+
+export function tagBranch(branchName: string, tag: string | null) {
+    return tag ? branchName.replace(/(RD-\d+)/, `$1-${tag}`) : branchName
 }
