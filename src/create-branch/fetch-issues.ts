@@ -10,7 +10,7 @@ function resolveJql({ninja, allIssues}: InlineConfig, sprint: number) {
     jql += ninja ? `filter=${ninjaFilterID}` : `Sprint = ${sprint} AND assignee in (${userId})`;
     if (!allIssues) {
         // Filter done issues
-        jql += ' AND status != Done';
+        jql += ' AND status not in ("Will not fix", Done)';
     }
     jql += ' order by created DESC';
 
