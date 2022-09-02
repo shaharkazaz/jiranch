@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 
 export function tagBranch() {
-    const choices = ['None', 'Angels', 'Delta', 'Monitoring'].map(name => ({
+    const choices = ['None', 'Angels', 'Delta', 'Monitoring', 'Wall-E'].map(name => ({
       name: name,
       value: name === 'None' ? null : name.toLowerCase()
     }))
