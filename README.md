@@ -21,3 +21,5 @@ Steps to get your user id:
 2. Go to "Profile":
    ![Profile picture](./step-2.png)
 3. Take the last part from the URL, this is your user id: `jira/people/${userId}`
+
+wallak ata
