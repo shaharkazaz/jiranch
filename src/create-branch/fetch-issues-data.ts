@@ -15,7 +15,7 @@ export async function fetchIssuesData({ issues, sprint }: Options) {
     }
     const fetching = ora('Loading issues data...').start();
 
-    const issuesData = issues.map(({ key }) => fetch(jiraApi(`issue/${key}`), { headers: getHeaders() }));
+    const issuesData = issues.map(({ key }) => fetch(jiraApi({path: `issue/${key}`}), { headers: getHeaders() }));
 
     const responses = await Promise.all(issuesData);
     const result = await Promise.all(responses.map(toJson));

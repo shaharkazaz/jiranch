@@ -45,7 +45,11 @@ export async function buildConfig(current?: JiraConfig) {
         },
     ]);
 
-    const { values: boards } = await fetch(jiraApi('board', 'agile'), {
+    const { values: boards } = await fetch(jiraApi({
+        apiPath: config.apiPath,
+        path: 'board',
+        type: 'agile'
+    }), {
         headers: getHeaders(config)
     }).then(toJson);
 

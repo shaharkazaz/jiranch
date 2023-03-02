@@ -10,7 +10,7 @@ function getTransitionData(id: number) {
 
 export async function updateJiraStatus(issueId: string) {
     const loader = ora("Moving issue to 'In progress'");
-    const url = jiraApi(`issue/${issueId}/transitions`);
+    const url = jiraApi({path: `issue/${issueId}/transitions`});
 
     await fetch(url, {
         headers: getHeaders(),

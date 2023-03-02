@@ -40,8 +40,8 @@ const apiTypesMap = {
     api: 'api/3',
     agile: 'agile/1.0'
  } as const;
-export function jiraApi(path: string, type: keyof typeof apiTypesMap = 'api') {
-    return `${getConfig().apiPath}/rest/${apiTypesMap[type]}/${path}`;
+export function jiraApi({path, type = 'api', apiPath = getConfig().apiPath}: { apiPath?: string, path: string, type?: keyof typeof apiTypesMap }) {
+    return `${apiPath}/rest/${apiTypesMap[type]}/${path}`;
 }
 
 export function pluck<T>(prop: keyof T) {

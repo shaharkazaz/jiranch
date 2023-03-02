@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import {Sprint} from "../types";
 
 async function getSprints(options?: { filter: string }) {
-    let url = jiraApi(`board/${getConfig().boardId}/sprint`, 'agile');
+    let url = jiraApi({path: `board/${getConfig().boardId}/sprint`, type: 'agile'});
     if (options?.filter) {
         url += `?${options.filter}`;
     }
