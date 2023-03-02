@@ -1,14 +1,13 @@
 import {Options} from "../types";
 import ora from "ora";
-import {exec, tagBranch} from "./utils";
+import {exec} from "./utils";
 
-export async function createBranch({branchName, skipCheckout, tag }: Options) {
+export async function createBranch({branchName, skipCheckout}: Options) {
     const creatingBranch = ora('Creating branch').start();
 
     const cmd = skipCheckout ? `git branch` : `git checkout -b`;
-    const normalizedName = tagBranch(branchName, tag);
-    await exec(`${cmd} ${normalizedName}`);
+    await exec(`${cmd} ${branchName}`);
 
-    creatingBranch.succeed(`Created branch: ${normalizedName}`);
-    ora(`Checkout ${normalizedName}`).succeed();
+    creatingBranch.succeed(`Created branch: ${branchName}`);
+    ora(`Checkout ${branchName}`).succeed();
 }

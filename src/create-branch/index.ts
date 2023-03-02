@@ -7,8 +7,6 @@ import {hasConfig, logAndExit} from "../shared";
 import {InlineConfig} from "../types";
 import {verifyBaseBranch} from "./verify-base-branch";
 import {checkBranchExists} from "./check-branch-exists";
-import {updateJiraStatus} from "./update-jira-status";
-import {tagBranch} from "./perfix-branch";
 import {checkPullNeeded} from "./check-pull-needed";
 
 
@@ -23,8 +21,9 @@ export function createJiraBranch(inlineConfig: InlineConfig) {
 
 async function run(inlineConfig: InlineConfig) {
     await verifyBaseBranch();
-    let sprint = getCurrentSprint();
-    if (inlineConfig.selectSprint && !inlineConfig.ninja) {
+    let sprint = await getCurrentSprint();
+
+    if (inlineConfig.selectSprint) {
         sprint = (await chooseSprint()).sprint;
     }
 
@@ -34,13 +33,10 @@ async function run(inlineConfig: InlineConfig) {
 
     const { branchName, issueId } = (await chooseIssue(issuesData)).selected;
     const options = {...inlineConfig, branchName, tag: null, issueId };
-    options.tag = (await tagBranch()).tag;
+
     await checkBranchExists(options);
 
     await checkPullNeeded();
-    await createBranch(options);
 
-    if (!inlineConfig.skipStatusUpdate) {
-        await updateJiraStatus(issueId);
-    }
+    await createBranch(options);
 }

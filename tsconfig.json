@@ -4,8 +4,8 @@
     "outDir": "dist",
     "module": "commonjs",
     "target": "es5",
-    "declaration": true,
-    "sourceMap": true,
+    "declaration": false,
+    "sourceMap": false,
     "lib": [
       "es2017",
       "esnext",

@@ -1,15 +1,16 @@
 import fetch from 'node-fetch';
-import {getHeaders, jiraApi, sprintDisplayName, toJson} from "./utils";
+import {getHeaders, jiraApi, toJson} from "./utils";
 import ora from "ora";
+import {Sprint} from "../types";
 
 interface Options {
     issues: any[];
-    sprint: number
+    sprint: Sprint
 }
 
 export async function fetchIssuesData({ issues, sprint }: Options) {
     if (!issues || !issues.length) {
-        console.log(`There are no issues assigned to the provided user on sprint ${sprintDisplayName(sprint)}`);
+        console.log(`There are no issues assigned to the provided user on sprint ${sprint.name}`);
         process.exit();
     }
     const fetching = ora('Loading issues data...').start();

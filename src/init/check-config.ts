@@ -1,5 +1,6 @@
-import {confirmed, getConfigStore, hasConfig} from "../shared";
+import {confirmed, hasConfig} from "../shared";
 import inquirer from "inquirer";
+import {getConfig} from "../create-branch/utils";
 
 export async function checkConfig() {
     if (!hasConfig()) {
@@ -7,7 +8,7 @@ export async function checkConfig() {
     }
 
     console.log('Found the following config:');
-    Object.entries(getConfigStore().all).forEach(([key, value]) => console.log(`${key}: ${value}`));
+    Object.entries(getConfig()).forEach(([key, value]) => console.log(`${key}: ${value}`));
 
     return inquirer.prompt([
         {

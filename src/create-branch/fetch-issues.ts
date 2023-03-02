@@ -1,36 +1,38 @@
-import {getConfig, getHeaders, jiraApi, sprintDisplayName, toJson} from "./utils";
-import {InlineConfig} from "../types";
+import {getConfig, getHeaders, jiraApi, toJson} from "./utils";
+import {InlineConfig, Sprint} from "../types";
 import ora from "ora";
 
-const ninjaFilterID = 10047;
-
-function resolveJql({ninja, allIssues}: InlineConfig, sprint: number) {
+function resolveJql({allIssues}: InlineConfig, sprintId: number) {
     const {userId} = getConfig();
     let jql = `search?jql=`;
-    jql += ninja ? `filter=${ninjaFilterID}` : `Sprint = ${sprint} AND assignee in (${userId})`;
+    jql += `Sprint = ${sprintId} AND assignee in (${userId})`;
     if (!allIssues) {
         // Filter done issues
-        jql += ' AND status not in ("Will not fix", Done)';
+        jql += ' AND status not in (Done)';
     }
     jql += ' order by created DESC';
 
     return jql;
 }
 
-export async function fetchIssues(config: InlineConfig, sprint: number) {
-    const loadingIssues = ora(config.ninja ? 'Loading Ninja issues' : 'Loading sprint issues...').start();
-    const url = jiraApi(resolveJql(config, sprint));
+export async function fetchIssues(config: InlineConfig, sprint: Sprint) {
+    const loadingIssues = ora('Loading sprint issues...').start();
+    const url = jiraApi(resolveJql(config, sprint.id));
     const fetch = require('node-fetch');
 
-    const { issues } = await fetch(url, {
+    const res = await fetch(url, {
         headers: getHeaders()
     }).then(toJson);
 
-    const msg = config.ninja ? 'Ninja' : `Sprint ${sprintDisplayName(sprint)}`;
-    loadingIssues.succeed( `${msg} issues loaded.`);
+    if (res.errorMessages) {
+        loadingIssues.stop();
+        throw new Error(res.errorMessages);
+    }
+
+    loadingIssues.succeed( `Sprint "${sprint.name}" issues loaded.`);
 
     return {
         sprint,
-        issues
+        issues: res.issues
     };
 }

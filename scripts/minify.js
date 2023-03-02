@@ -1,8 +1,8 @@
 const terser = require("terser");
-const fs = require("fs");
-const glob = require("glob");
+const fs = require("node:fs");
+const {globSync} = require("glob");
 
-const files = glob.sync('dist/**/*.js');
+const files = globSync('dist/**/*.js');
 minifyFiles(files);
 
 function minifyFiles(filePaths) {

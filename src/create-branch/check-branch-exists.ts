@@ -1,9 +1,9 @@
-import {exec, tagBranch} from "./utils";
+import {exec} from "./utils";
 import {Options} from "../types";
 import ora from "ora";
 
-export async function checkBranchExists({branchName, issueId, skipCheckout, tag}: Options) {
-    const {stdout} = await exec(`git branch --list '${tagBranch(issueId, tag)}*'`);
+export async function checkBranchExists({branchName, skipCheckout}: Options) {
+    const {stdout} = await exec(`git branch --list '${branchName}*'`);
     const localBranchExists = !!stdout;
 
     if (localBranchExists) {
