@@ -30,9 +30,10 @@ export async function fetchIssues(config: InlineConfig, sprint: Sprint) {
     }
 
     loadingIssues.succeed( `Sprint "${sprint.name}" issues loaded.`);
+    const subtasks = res.issues.map((issue: any) => issue.fields.subtasks).flat();
 
     return {
         sprint,
-        issues: res.issues
+        issues: [...res.issues, ...subtasks]
     };
 }
