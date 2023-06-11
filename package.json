@@ -1,6 +1,6 @@
 {
   "name": "jiranch",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Easily create Git branches from your sprint issues",
   "bin": {
     "jiranch": "index.js"

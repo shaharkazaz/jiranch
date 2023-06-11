@@ -22,7 +22,7 @@ export function getHeaders({email,token} = getConfig()) {
 }
 
 export function sanitizeBranchName(branchName: string): string {
-    let sanitized = branchName.trim().toLowerCase().replace(/[\W_]+/g,"-").substring(0, 63);
+    let sanitized = branchName.trim().toLowerCase().replace(/[\W_]+/g,"-").substring(0, 40);
 
     if (lastChar(sanitized) === '-') {
         // remove trailing dash
