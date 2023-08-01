@@ -43,6 +43,18 @@ export async function buildConfig(current?: JiraConfig) {
             default: current?.apiPath,
             validate
         },
+        {
+            name: 'todoStatuses',
+            message: 'Enter your "TODO" issue status: (comma separated)',
+            default: current?.todoStatuses?.replace(/"/g, '') ?? 'To Do',
+            validate(value: string) {
+                if (value.trim().length === 0) {
+                    return 'Please provide a value.';
+                }
+
+                return /([\w\s]+,)*([\w\s]+)$/.test(value) || 'Please provide a comma separated list of statuses.';
+            }
+        },
     ]);
 
     const { values: boards } = await fetch(jiraApi({
@@ -78,6 +90,7 @@ export async function buildConfig(current?: JiraConfig) {
 
     return {
         ...config,
+        todoStatuses: config.todoStatuses.split(',').map((status: string) => `"${status.trim()}"`).join(','),
         boardId
     }
 }

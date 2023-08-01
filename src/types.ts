@@ -8,6 +8,7 @@ export interface JiraConfig {
     boardId: number;
     token: string;
     apiPath: string;
+    todoStatuses: string;
 }
 
 export interface InlineConfig {

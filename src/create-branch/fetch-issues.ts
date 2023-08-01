@@ -8,7 +8,7 @@ function resolveJql({allIssues}: InlineConfig, sprintId: number) {
     jql += `Sprint = ${sprintId} AND assignee in (${userId})`;
     if (!allIssues) {
         // Filter done issues
-        jql += ' AND status not in (Done)';
+        jql += ` AND status in (${getConfig().todoStatuses})`;
     }
     jql += ' order by created DESC';
 
