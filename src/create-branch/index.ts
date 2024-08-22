@@ -8,6 +8,7 @@ import {InlineConfig} from "../types";
 import {verifyBaseBranch} from "./verify-base-branch";
 import {checkBranchExists} from "./check-branch-exists";
 import {checkPullNeeded} from "./check-pull-needed";
+import {getConfig} from "./utils";
 
 
 export function createJiraBranch(inlineConfig: InlineConfig) {
@@ -21,10 +22,14 @@ export function createJiraBranch(inlineConfig: InlineConfig) {
 
 async function run(inlineConfig: InlineConfig) {
     await verifyBaseBranch();
-    let sprint = await getCurrentSprint();
+    let sprint;
+    if (getConfig().boardType === 'scrum') {
+        if (inlineConfig.selectSprint) {
+            sprint = (await chooseSprint()).sprint;
+        } else {
+            sprint = await getCurrentSprint();
 
-    if (inlineConfig.selectSprint) {
-        sprint = (await chooseSprint()).sprint;
+        }
     }
 
     const issues = await fetchIssues(inlineConfig, sprint);

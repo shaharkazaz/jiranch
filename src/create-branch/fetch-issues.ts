@@ -2,22 +2,24 @@ import {getConfig, getHeaders, jiraApi, toJson} from "./utils";
 import {InlineConfig, Sprint} from "../types";
 import ora from "ora";
 
-function resolveJql({allIssues}: InlineConfig, sprintId: number) {
+function resolveJql({allIssues}: InlineConfig, sprintId?: number) {
     const {userId} = getConfig();
-    let jql = `search?jql=`;
-    jql += `Sprint = ${sprintId} AND assignee in (${userId})`;
-    if (!allIssues) {
-        // Filter done issues
-        jql += ` AND status in (${getConfig().todoStatuses})`;
+    // TODO filter by specific project when in kanban
+    let jql = [];
+    if (sprintId) {
+        jql.push(`Sprint = ${sprintId}`);
     }
-    jql += ' order by created DESC';
+    jql.push(`assignee in (${userId})`);
+    if (!allIssues) {
+        jql.push(`status in (${getConfig().todoStatuses})`);
+    }
 
-    return jql;
+    return `search?jql=${jql.join(' AND ')} order by created DESC`;
 }
 
-export async function fetchIssues(config: InlineConfig, sprint: Sprint) {
+export async function fetchIssues(config: InlineConfig, sprint?: Sprint) {
     const loadingIssues = ora('Loading sprint issues...').start();
-    const url = jiraApi({path: resolveJql(config, sprint.id)});
+    const url = jiraApi({path: resolveJql(config, sprint?.id)});
     const fetch = require('node-fetch');
 
     const res = await fetch(url, {
@@ -28,8 +30,8 @@ export async function fetchIssues(config: InlineConfig, sprint: Sprint) {
         loadingIssues.stop();
         throw new Error(res.errorMessages);
     }
-
-    loadingIssues.succeed( `Sprint "${sprint.name}" issues loaded.`);
+    const message = sprint ? `Sprint "${sprint.name}" issues loaded.` : 'Issues loaded.';
+    loadingIssues.succeed(message);
     const subtasks = res.issues.map((issue: any) => issue.fields.subtasks).flat();
 
     return {

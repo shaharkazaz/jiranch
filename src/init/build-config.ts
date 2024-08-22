@@ -57,7 +57,7 @@ export async function buildConfig(current?: JiraConfig) {
         },
     ]);
 
-    const boards: {name: string, id: number}[] = [];
+    const boards: {name: string, id: number, type: 'scrum' | 'kanban'}[] = [];
     let isLast = false;
     const boardUrl = jiraApi({
         apiPath: config.apiPath,
@@ -100,6 +100,7 @@ export async function buildConfig(current?: JiraConfig) {
     return {
         ...config,
         todoStatuses: config.todoStatuses.split(',').map((status: string) => `"${status.trim()}"`).join(','),
-        boardId
+        boardId,
+        boardType: boards.find(({id}) => id === boardId)?.type
     }
 }

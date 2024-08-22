@@ -9,6 +9,7 @@ export interface JiraConfig {
     token: string;
     apiPath: string;
     todoStatuses: string;
+    boardType: 'scrum' | 'kanban';
 }
 
 export interface InlineConfig {
