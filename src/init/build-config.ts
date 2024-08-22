@@ -57,15 +57,24 @@ export async function buildConfig(current?: JiraConfig) {
         },
     ]);
 
-    const { values: boards } = await fetch(jiraApi({
+    const boards: {name: string, id: number}[] = [];
+    let isLast = false;
+    const boardUrl = jiraApi({
         apiPath: config.apiPath,
         path: 'board',
         type: 'agile'
-    }), {
-        headers: getHeaders(config)
-    }).then(toJson);
+    });
 
-    const choices = boards.map(({ name, id }: {name: string, id: number}) => {
+    do {
+        const res = await fetch(`${boardUrl}?startAt=${boards.length}`, {
+            headers: getHeaders(config)
+        }).then(toJson);
+
+        boards.push(...res.values);
+        isLast = res.isLast;
+    } while (!isLast);
+
+    const choices = boards.map(({ name, id }) => {
         return {
             name: `${name} (${id})`,
             value: id,

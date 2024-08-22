@@ -44,6 +44,6 @@ export function jiraApi({path, type = 'api', apiPath = getConfig().apiPath}: { a
     return `${apiPath}/rest/${apiTypesMap[type]}/${path}`;
 }
 
-export function pluck<T>(prop: keyof T) {
+export function pluck<T, Key extends keyof T>(prop: Key) {
     return (v: T) => v[prop];
 }
